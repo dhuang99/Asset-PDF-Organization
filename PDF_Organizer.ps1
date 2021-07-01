@@ -8,19 +8,14 @@
 #   Uncomment both lines below to create a text file that records everything that happens
 #   in terminal. Also uncomment the Stop-Transcript at the bottom of the code.
 
-$log = Read-Host "Would you like keep a log of the Powershell output? [y/n]"
-while($log -ne "y" -or $confirmation -ne "n" ) {
-    $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf and add it to the folder $($Filename) with path $($NewPath)? [y/n]"
-}
-if ($log -eq "y") {
-    Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory $PSScriptRoot
-}
+Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory $PSScriptRoot
+
 
 #Path of the source folder (currently set to the pwd)
 $Source = $PSScriptRoot
 
 #Path to the desired folder
-$Destintation = "C:\examplefolder"
+$Destintation = "C:\Users\Daniel Huang\Documents\GitHub\Asset-PDF-Organization"
 
 $FolderList = @{}
 
@@ -43,10 +38,10 @@ foreach ($File in $SourceFiles) {
     $NewPath = Join-Path -Path $Destintation -ChildPath $Filename
     $PdfName = Join-Path -Path $NewPath -ChildPath $File.BaseName
 
-
+    Write-Output $SourceFiles
     if ($FolderList.keys -match $Filename) {
          #Move the file to the appropriate folder
-        write-output "Moving file to folder $($Filename) with path $($NewPath)"     
+        write-output "`nMoving file to folder $($Filename) with path $($NewPath)"     
         
         if (-not (Test-Path "$($PdfName).pdf")) {
             Copy-Item -Path $OldPath -Destination $NewPath
@@ -56,7 +51,7 @@ foreach ($File in $SourceFiles) {
                 write-host "Item Failed to Move (Invalid Path) `n" -ForegroundColor Red
             }
         } else {
-            write-host "$($Split[0]) $($Split[1]) already has a file named $($File.Name) `n" -ForegroundColor Red
+            write-host "$($Split[0]) $($Split[1]) already has a file named ""$($File.Name)"" `n" -ForegroundColor Red
 
             $Counter = 1
             $NewFileName = "$($PdfName) ($($Counter)).pdf"
@@ -65,10 +60,10 @@ foreach ($File in $SourceFiles) {
                 $NewFileName = "$($PdfName) ($($Counter)).pdf"
             }
 
-            $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf and add it to the folder $($Filename) with path $($NewPath)? [y/n]"
+            $confirmation = Read-Host "Do you want to rename ""$($File.Name)"" as ""$($File.BaseName) ($($Counter)).pdf"" and add it to the folder ""$($Filename)""? [y/n]"
             while($confirmation -ne "y") {
                 if ($confirmation -eq 'n') {break}
-                $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf and add it to the folder $($Filename) with path $($NewPath)? [y/n]"
+                $confirmation = Read-Host "Do you want to rename ""$($File.Name)"" as ""$($File.BaseName) ($($Counter)).pdf"" and add it to the folder ""$($Filename)""? [y/n]"
             }
             if ($confirmation -eq "y") {
                 Copy-Item $OldPath $NewFileName 
