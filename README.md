@@ -25,8 +25,8 @@
 	</li>
 	<li><a href="road-map">Road Map</a>
 		<ul>
-			<li> <a href="proposed-features">Proposed Features</a> </li>
 			<li> <a href="known-issues">Known Issues</a> </li>
+			<li> <a href="proposed-features">Proposed Features</a> </li>
 		</ul>
 	</li>
 			
@@ -74,16 +74,19 @@ After executing the script, an error may appear. Ignore it. It will then ask whe
 ## Road Map
 This script was created as a quick automation tool and a way for me to learn PowerShell. Thus, it will have a lot of places where it can improve.
 
-### Proposed Features
-I've thought of a few features to add to the script in the future:
-* A tag that can catch certain cases of names that are currently unable to be processed by the script
-* A GUI to simplify process for the user
-* The ability for the script to search for people's names in the PDF name instead of requiring the name to be the first two words
-
 ### Known Issues
 * The script **CANNOT** account for the following cases. If the name of a PDFs falls under these cases, you should organize them manually as the script will create a new incorrect folder and place the PDF there.
 	* Suffixes (Jr., Sr., Roman Numberals)
 	* Compound Last Names (example: Zac de la Cruz), account for hyphenated names
 	* Alternate names/nicknames (example: Will for William, Chuck for Charles, etc.)
 * The the destintation cannot be in the same directory or subdirectory as the source folder. This is because the script recursively searches for all PDFs in the source folder and will count all of the PDFs in the destination as part of the source. 
+* As of now, you have to have a space and something else after the last name or else it will consider ".pdf" as part of the last name.
+
+### Proposed Features
+I've thought of a few features to add to the script in the future:
+* A tag that can catch certain cases of names that are currently unable to be processed by the script
+* The ability to just have the first and last name and not anything else.
+* A GUI to simplify process for the user
+* The ability for the script to search for people's names in the PDF name instead of requiring the name to be the first two words
+
  
