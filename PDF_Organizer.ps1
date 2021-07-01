@@ -8,8 +8,13 @@
 #   Uncomment both lines below to create a text file that records everything that happens
 #   in terminal. Also uncomment the Stop-Transcript at the bottom of the code.
 
-#Stop-Transcript 
-#Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory $PSScriptRoot
+$log = Read-Host "Would you like keep a log of the Powershell output? [y/n]"
+while($log -ne "y" -or $confirmation -ne "n" ) {
+    $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf and add it to the folder $($Filename) with path $($NewPath)? [y/n]"
+}
+if ($log -eq "y") {
+    Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory $PSScriptRoot
+}
 
 #Path of the source folder (currently set to the pwd)
 $Source = $PSScriptRoot
@@ -60,10 +65,10 @@ foreach ($File in $SourceFiles) {
                 $NewFileName = "$($PdfName) ($($Counter)).pdf"
             }
 
-            $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf? [y/n]"
+            $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf and add it to the folder $($Filename) with path $($NewPath)? [y/n]"
             while($confirmation -ne "y") {
                 if ($confirmation -eq 'n') {break}
-                $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf? [y/n]"
+                $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf and add it to the folder $($Filename) with path $($NewPath)? [y/n]"
             }
             if ($confirmation -eq "y") {
                 Copy-Item $OldPath $NewFileName 
@@ -114,6 +119,6 @@ foreach ($File in $SourceFiles) {
         write-output "`n `n"
     }   
 }
-#Stop-Transcript 
+Stop-Transcript 
 
 PAUSE
