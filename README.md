@@ -1,6 +1,6 @@
 <!-- Project Title -->
 <p align="center">
-<h2 align="center">Asset PDF Organizer</h2>
+<h2 align="center">PDF Name Organizer</h2>
 <p align="center">A PowerShell script that organizes properly named PDFs into their respective folders based on First and Last names.</p>
 </p>
 
