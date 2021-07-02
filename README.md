@@ -1,8 +1,7 @@
 <!-- Project Title -->
-<p align="center">
-<h2 align="center">PDF Name Organizer</h2>
-<p align="center">A PowerShell script that organizes properly named PDFs into their respective folders based on First and Last names.</p>
-</p>
+<h2 align="left">PDF Name Organizer</h2>
+<p align="left">A PowerShell script that organizes properly named PDFs into their respective folders based on First and Last names.</p>
+
 
 <!-- Table of Contents -->
 <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
