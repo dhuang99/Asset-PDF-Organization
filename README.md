@@ -64,7 +64,7 @@ Juddy Brown This Can Be Literally Anything
 ```
 
 ### Executing the Script
-The easiest way to run the script would be executing it through PowerShell. However, you can alternatively create a new shortcut and use the following as the target:
+The easiest way to run the script would be executing it through PowerShell. You can do this by right clicking the script and choosing `Run with PowerShell`. However, you can alternatively create a new shortcut and use the following as the target:
 ```sh
 powershell.exe -noexit -ExecutionPolicy Bypass -File "Path To PDF_Organizer.ps1"
 ```
