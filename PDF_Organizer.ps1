@@ -11,6 +11,11 @@ function stop {
     exit
 }
 
+if (-not (Test-Path "Transcripts")) {
+    Write-Host "No Transript Folder. Creating a Transcript Folder."
+    New-Item -Path $PSScriptRoot -Name "Transcripts" -ItemType "directory"
+}
+
 Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory ($PSScriptRoot+"\Transcripts")
 
 #Path of the source folder (currently set to the pwd)
@@ -23,8 +28,6 @@ if (-not ((Test-Path $Source) -and (Test-Path $Destintation))) {
     write-host "`nInvalid Source and Destination." -ForegroundColor Red -BackgroundColor Black
     stop
 }
-
-
 
 $FolderList = @{}
 
