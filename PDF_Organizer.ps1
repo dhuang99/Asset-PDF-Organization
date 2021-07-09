@@ -15,7 +15,7 @@ Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory $PSScriptRoo
 $Source = $PSScriptRoot
 
 #Path to the desired folder
-$Destintation = "C:\Users\Daniel Huang\Documents\GitHub\Asset-PDF-Organization"
+$Destintation = "C:\Users\Daniel Huang\Downloads\Work Downloads\Terrapin Tech\Terrapin_Tech_Sales_Text_Tool\PDF-Name-Organizer-main\PDF-Name-Organizer-main"
 
 $FolderList = @{}
 
@@ -31,89 +31,100 @@ foreach ($Folder in $DestintationFolders) {
     }
 }
 
-foreach ($File in $SourceFiles) {
-    $Split = $File.Name -split " "
-    $OldPath = $File.FullName
-    $Filename = "$($Split[1]), $($Split[0])"
-    $NewPath = Join-Path -Path $Destintation -ChildPath $Filename
-    $PdfName = Join-Path -Path $NewPath -ChildPath $File.BaseName
+if ($SourceFiles) {
 
-    Write-Output $SourceFiles
-    if ($FolderList.keys -match $Filename) {
-         #Move the file to the appropriate folder
-        write-output "`nMoving file to folder $($Filename) with path $($NewPath)"     
-        
-        if (-not (Test-Path "$($PdfName).pdf")) {
-            Copy-Item -Path $OldPath -Destination $NewPath
-            if ($?) {
-                write-host "$($File.Name) Moved" -ForegroundColor Green
-            } else {
-                write-host "Item Failed to Move (Invalid Path) `n" -ForegroundColor Red
-            }
-        } else {
-            write-host "$($Split[0]) $($Split[1]) already has a file named ""$($File.Name)"" `n" -ForegroundColor Red
 
-            $Counter = 1
-            $NewFileName = "$($PdfName) ($($Counter)).pdf"
-            while (Test-Path $NewFileName) {
-                $Counter += 1
-                $NewFileName = "$($PdfName) ($($Counter)).pdf"
-            }
+    foreach ($File in $SourceFiles) {
+        $Split = $File.Name -split " "
+        $OldPath = $File.FullName
+        $Filename = "$($Split[1]), $($Split[0])"
+        $NewPath = Join-Path -Path $Destintation -ChildPath $Filename
+        $PdfName = Join-Path -Path $NewPath -ChildPath $File.BaseName
 
-            $confirmation = Read-Host "Do you want to rename ""$($File.Name)"" as ""$($File.BaseName) ($($Counter)).pdf"" and add it to the folder ""$($Filename)""? [y/n]"
-            while($confirmation -ne "y") {
-                if ($confirmation -eq 'n') {break}
-                $confirmation = Read-Host "Do you want to rename ""$($File.Name)"" as ""$($File.BaseName) ($($Counter)).pdf"" and add it to the folder ""$($Filename)""? [y/n]"
-            }
-            if ($confirmation -eq "y") {
-                Copy-Item $OldPath $NewFileName 
-                write-host "Filed moved as $($NewFileName) Moved" -ForegroundColor Green
-            }
-        }
-                
-        write-output "`n `n"
-
-    } else {
-         #Create new Folder if the user doesn't already have one
-        write-output "Creating new folder for $($Filename) with path $($NewPath) and moving file to folder"
-        
-        New-Item -Path $Destintation -Name $Filename -ItemType "directory"
-        write-host "Folder $($Filename) has been created" -ForegroundColor Yellow -BackgroundColor Black
-        $FolderList.Add($Filename, $NewPath)
-        
-        if (-not (Test-Path "$($PdfName).pdf")) {
-            Copy-Item -Path $OldPath -Destination $NewPath
-            if ($?) {
-                write-host "$($File.Name) Moved" -ForegroundColor Green
-            } else {
-                write-host "Item Failed to Move (Invalid Path) `n" -ForegroundColor Red
-            }
-        } else {
-            write-host "$($Split[0]) $($Split[1]) already has a file named $($File.Name) `n" -ForegroundColor Red
-
-            $Counter = 1
-            $NewFileName = "$($PdfName) ($($Counter)).pdf"
-            while (Test-Path $NewFileName) {
-                $Counter += 1
-                $NewFileName = "$($PdfName) ($($Counter)).pdf"  
-            }
-
-            $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf? [y/n]"
-            while($confirmation -ne "y") {
-                if ($confirmation -eq 'n') {
-                    write-host "Did not rename $($File.Name)" -ForegroundColor Red
-                    break
+        Write-Output $SourceFiles
+        if ($FolderList.keys -match $Filename) {
+            #Move the file to the appropriate folder
+            write-output "`nMoving file to folder $($Filename) with path $($NewPath)"     
+            
+            if (-not (Test-Path "$($PdfName).pdf")) {
+                Copy-Item -Path $OldPath -Destination $NewPath
+                if ($?) {
+                    write-host "$($File.Name) Moved" -ForegroundColor Green
+                } else {
+                    write-host "Item Failed to Move (Invalid Path) `n" -ForegroundColor Red
                 }
+            } else {
+                write-host "$($Split[0]) $($Split[1]) already has a file named ""$($File.Name)"" `n" -ForegroundColor Red
+
+                $Counter = 1
+                $NewFileName = "$($PdfName) ($($Counter)).pdf"
+                while (Test-Path $NewFileName) {
+                    $Counter += 1
+                    $NewFileName = "$($PdfName) ($($Counter)).pdf"
+                }
+
+                $confirmation = Read-Host "Do you want to rename ""$($File.Name)"" as ""$($File.BaseName) ($($Counter)).pdf"" and add it to the folder ""$($Filename)""? [y/n]"
+                while($confirmation -ne "y") {
+                    if ($confirmation -eq 'n') {break}
+                    $confirmation = Read-Host "Do you want to rename ""$($File.Name)"" as ""$($File.BaseName) ($($Counter)).pdf"" and add it to the folder ""$($Filename)""? [y/n]"
+                }
+                if ($confirmation -eq "y") {
+                    Copy-Item $OldPath $NewFileName 
+                    write-host "Filed moved as $($NewFileName) Moved" -ForegroundColor Green
+                }
+            }
+                    
+            write-output "`n `n"
+
+        } else {
+            #Create new Folder if the user doesn't already have one
+            write-output "Creating new folder for $($Filename) with path $($NewPath) and moving file to folder"
+            
+            New-Item -Path $Destintation -Name $Filename -ItemType "directory"
+            write-host "Folder $($Filename) has been created" -ForegroundColor Yellow -BackgroundColor Black
+            $FolderList.Add($Filename, $NewPath)
+            
+            if (-not (Test-Path "$($PdfName).pdf")) {
+                Copy-Item -Path $OldPath -Destination $NewPath
+                if ($?) {
+                    write-host "$($File.Name) Moved" -ForegroundColor Green
+                } else {
+                    write-host "Item Failed to Move (Invalid Path) `n" -ForegroundColor Red
+                }
+            } else {
+                write-host "$($Split[0]) $($Split[1]) already has a file named $($File.Name) `n" -ForegroundColor Red
+
+                $Counter = 1
+                $NewFileName = "$($PdfName) ($($Counter)).pdf"
+                while (Test-Path $NewFileName) {
+                    $Counter += 1
+                    $NewFileName = "$($PdfName) ($($Counter)).pdf"  
+                }
+
                 $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf? [y/n]"
+                while($confirmation -ne "y") {
+                    if ($confirmation -eq 'n') {
+                        write-host "Did not rename $($File.Name)" -ForegroundColor Red
+                        break
+                    }
+                    $confirmation = Read-Host "Do you want to rename $($File.Name) as $($File.BaseName) ($($Counter)).pdf? [y/n]"
+                }
+                if ($confirmation -eq "y") {
+                    Copy-Item $OldPath $NewFileName
+                    write-host "Filed moved as $($NewFileName) Moved" -ForegroundColor Green
+                }
             }
-            if ($confirmation -eq "y") {
-                Copy-Item $OldPath $NewFileName
-                write-host "Filed moved as $($NewFileName) Moved" -ForegroundColor Green
-            }
-        }
-        write-output "`n `n"
-    }   
+            write-output "`n `n"
+        }   
+    }
+} else {
+    write-host "`nNo PDFs Found in Source Location. `n`nExiting...`n" -ForegroundColor Red -BackgroundColor Black
 }
-Stop-Transcript 
+
+try{
+    stop-transcript|out-null
+  }
+  catch [System.InvalidOperationException]{}
+
 
 PAUSE
