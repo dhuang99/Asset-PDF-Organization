@@ -1,26 +1,36 @@
 #Author: Daniel Huang
 
-##############################################################################################
-#Description: Put in a folder with PDFs formated as [FirstName] [LastName] [Anything Else] and
-#               it will create folders named as [LastName], [FirstName] if they do not already
-#               exist and place the PDFs in the appropriate folder.
-##############################################################################################
-#   Uncomment both lines below to create a text file that records everything that happens
-#   in terminal. Also uncomment the Stop-Transcript at the bottom of the code.
+function stop {
+    try{
+        stop-transcript|out-null
+    }
+    catch {
+    }
+    write-host "`nExiting..."
+    Start-Sleep -Seconds 3.5
+    exit
+}
 
-Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory $PSScriptRoot
-
+Start-Transcript -Confirm -IncludeInvocationHeader -OutputDirectory ($PSScriptRoot+"\Transcripts")
 
 #Path of the source folder (currently set to the pwd)
-$Source = $PSScriptRoot
+$Source = "Source"
 
 #Path to the desired folder
-$Destintation = "C:\Users\Daniel Huang\Downloads\Work Downloads\Terrapin Tech\Terrapin_Tech_Sales_Text_Tool\PDF-Name-Organizer-main\PDF-Name-Organizer-main"
+$Destintation = "Destination"
+
+if (-not ((Test-Path $Source) -and (Test-Path $Destintation))) {
+    write-host "`nInvalid Source and Destination." -ForegroundColor Red -BackgroundColor Black
+    stop
+}
+
+
 
 $FolderList = @{}
 
 $SourceFiles = get-ChildItem $Source -Include *.pdf -recurse
 $DestintationFolders = Get-ChildItem $Destintation -Recurse -Depth 1 | ?{ $_.PSIsContainer}
+
 
 #Creates a string in array FolderList with format "[LastName], [FirstName]" 
 foreach ($Folder in $DestintationFolders) {
@@ -33,7 +43,6 @@ foreach ($Folder in $DestintationFolders) {
 
 if ($SourceFiles) {
 
-
     foreach ($File in $SourceFiles) {
         $Split = $File.Name -split " "
         $OldPath = $File.FullName
@@ -41,11 +50,10 @@ if ($SourceFiles) {
         $NewPath = Join-Path -Path $Destintation -ChildPath $Filename
         $PdfName = Join-Path -Path $NewPath -ChildPath $File.BaseName
 
-        Write-Output $SourceFiles
         if ($FolderList.keys -match $Filename) {
             #Move the file to the appropriate folder
             write-output "`nMoving file to folder $($Filename) with path $($NewPath)"     
-            
+            Start-Sleep -Seconds 0.5
             if (-not (Test-Path "$($PdfName).pdf")) {
                 Copy-Item -Path $OldPath -Destination $NewPath
                 if ($?) {
@@ -79,7 +87,7 @@ if ($SourceFiles) {
         } else {
             #Create new Folder if the user doesn't already have one
             write-output "Creating new folder for $($Filename) with path $($NewPath) and moving file to folder"
-            
+            Start-Sleep -Seconds 0.5
             New-Item -Path $Destintation -Name $Filename -ItemType "directory"
             write-host "Folder $($Filename) has been created" -ForegroundColor Yellow -BackgroundColor Black
             $FolderList.Add($Filename, $NewPath)
@@ -112,19 +120,16 @@ if ($SourceFiles) {
                 if ($confirmation -eq "y") {
                     Copy-Item $OldPath $NewFileName
                     write-host "Filed moved as $($NewFileName) Moved" -ForegroundColor Green
+                    Start-Sleep -Seconds 0.5
                 }
             }
             write-output "`n `n"
         }   
     }
 } else {
-    write-host "`nNo PDFs Found in Source Location. `n`nExiting...`n" -ForegroundColor Red -BackgroundColor Black
+    write-host "`nNo PDFs Found in Source Location." -ForegroundColor Red -BackgroundColor Black
+    stop
 }
 
-try{
-    stop-transcript|out-null
-  }
-  catch [System.InvalidOperationException]{}
-
-
+write-host "`nAll PDFs have in Source location has been processed. Press Enter to exit."
 PAUSE
