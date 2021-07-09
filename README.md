@@ -49,7 +49,7 @@ You need to run this script on a Windows 10 machine. There should be no other pr
 To download the script, download the zip file and extract it. You can then move the script to your desired location. 
 
 ## Usage
-You will have to change the source and destination of the script to specify the locations that you desire. The source is currently set to the script's present working directory. 
+The script is currently has its source and destintation set to the Source and Destination folders. You can change this by editing the variables at the top of the `PDF_Organizer.ps1` file.  
 
 ### Naming Convention
 To allow the script to run properly, the PDFs must be named correctly. Each PDF must be named according to the following format:
@@ -62,13 +62,15 @@ Daniel Huang Laptop Asset Form (5490)
 Bobby Smith Finance Sheet
 Juddy Brown This Can Be Literally Anything
 ```
-
 ### Executing the Script
-The easiest way to run the script would be executing it through PowerShell. You can do this by right clicking the script and choosing `Run with PowerShell`. However, you can alternatively create a new shortcut and use the following as the target:
+The main script is the `PDF_Organizer.ps1` file. The easiest way to run the script (and all the other scripts) would be executing with PowerShell. You can do this by right clicking the script and choosing `Run with PowerShell`. However, you can alternatively create a new shortcut and use the following as the target:
 ```sh
 powershell.exe -noexit -ExecutionPolicy Bypass -File "Path To PDF_Organizer.ps1"
 ```
 You will have the option of saving a transcript when you start the script. While the script is running, it will let you know when a folder is created (yellow text) and when a PDF is succesfully moved to its appropriate folder (green text). If there is a duplicate, then it will ask whether you want to add another PDF with a number at the end.
+
+### Example
+You can run the `Generate Example.ps1` script to create dummy PDFs in the Source folder so that you can run the script and see it in action. The script will create folders and PDFs in the Destination folder.
 
 ## Road Map
 This script was created as a quick automation tool and a way for me to learn PowerShell. Thus, it will have a lot of places where it can improve.
