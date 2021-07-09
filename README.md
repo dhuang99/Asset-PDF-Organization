@@ -68,7 +68,7 @@ The easiest way to run the script would be executing it through PowerShell. You 
 ```sh
 powershell.exe -noexit -ExecutionPolicy Bypass -File "Path To PDF_Organizer.ps1"
 ```
-After executing the script, an error may appear. Ignore it. It will then ask whether you want to save a text log of the powershell session. Whilke the script is running, it will let you know when a folder is created (yellow text) and when a PDF is succesfully moved to its appropriate folder (green text). If there is a duplicate, then it will ask whether you want to add another PDF with a number at the end.
+You will have the option of saving a transcript when you start the script. While the script is running, it will let you know when a folder is created (yellow text) and when a PDF is succesfully moved to its appropriate folder (green text). If there is a duplicate, then it will ask whether you want to add another PDF with a number at the end.
 
 ## Road Map
 This script was created as a quick automation tool and a way for me to learn PowerShell. Thus, it will have a lot of places where it can improve.
