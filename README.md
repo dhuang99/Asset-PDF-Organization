@@ -67,7 +67,7 @@ The main script is the `PDF_Organizer.ps1` file. The easiest way to run the scri
 ```sh
 powershell.exe -noexit -ExecutionPolicy Bypass -File "Path To PDF_Organizer.ps1"
 ```
-You will have the option of saving a transcript when you start the script. While the script is running, it will let you know when a folder is created (yellow text) and when a PDF is succesfully moved to its appropriate folder (green text). If there is a duplicate, then it will ask whether you want to add another PDF with a number at the end.
+You will have the option of saving a transcript of the PowerShell session which will save a copy of the session to the Transcripts folder. While the script is running, it will let you know when a folder is created (yellow text) and when a PDF is succesfully moved to its appropriate folder (green text). If there is a duplicate, then it will ask whether you want to add another PDF with a number at the end.
 
 ### Example
 You can run the `Generate Example.ps1` script to create dummy PDFs in the Source folder so that you can run the script and see it in action. The script will create folders and PDFs in the Destination folder.
